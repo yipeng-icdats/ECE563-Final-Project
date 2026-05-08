@@ -29,6 +29,8 @@ dist/
 .ipynb_checkpoints/
 
 # Supplied course data should stay local.
+/Load_history_final.csv
+/Temp_history_final.csv
 data/*.csv
 
 # Large trained model artifacts
