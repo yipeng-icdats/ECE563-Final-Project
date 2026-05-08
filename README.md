@@ -28,12 +28,10 @@ The repository includes both a simple baseline model and a stronger final model:
 
 The supplied course data should be placed at:
 
-- `data/Load_history_final.csv`
-- `data/Temp_history_final.csv`
+- `../Load_history_final.csv`
+- `../Temp_history_final.csv`
 
-The loader in `config.py` also checks fallback locations in the project root and
-parent directory, so the scripts can run without editing paths if the CSVs are
-stored in one of the supported layouts.
+The submitted code folder should sit one level below the two supplied CSV files.
 
 The load and temperature files use a wide hourly format with identifier/date
 columns followed by `h1` through `h24`. The final prediction file uses the same
