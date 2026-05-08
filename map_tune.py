@@ -180,7 +180,7 @@ def tune_models(mapping: dict[str, list[int]], mapping_diagnostics: dict) -> dic
         metrics = regression_metrics(valid["load"], pred)
         if best_ridge is None or metrics["rmse"] < best_ridge["metrics"]["rmse"]:
             best_ridge = {"alpha": alpha, "metrics": metrics}
-        print(f"Ridge alpha={alpha}: valid RMSE={metrics['rmse']:.2f}, R2={metrics['r2']:.4f}")
+        print(f"Ridge alpha={alpha}: valid RMSE={metrics['rmse']:.2f}, MAPE={metrics['mape']:.2f}%")
 
     hgb_grid = [
         DEFAULT_BEST_PARAMS,
@@ -196,7 +196,7 @@ def tune_models(mapping: dict[str, list[int]], mapping_diagnostics: dict) -> dic
         metrics = regression_metrics(valid["load"], pred)
         if best_hgb is None or metrics["rmse"] < best_hgb["metrics"]["rmse"]:
             best_hgb = {"params": params, "metrics": metrics}
-        print(f"HGB {params}: valid RMSE={metrics['rmse']:.2f}, R2={metrics['r2']:.4f}")
+        print(f"HGB {params}: valid RMSE={metrics['rmse']:.2f}, MAPE={metrics['mape']:.2f}%")
 
     output = {
         "split_strategy": "train <= 2006, validation = 2007, test = 2008 known nonzero rows",

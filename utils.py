@@ -9,7 +9,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer
-from sklearn.metrics import mean_absolute_error, r2_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
@@ -391,15 +390,19 @@ def get_xy(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
 def regression_metrics(y_true, y_pred) -> dict[str, float]:
     y_true = np.asarray(y_true)
     y_pred = np.asarray(y_pred)
+    positive = y_true > 0
+    if positive.any():
+        mape = np.mean(np.abs((y_true[positive] - y_pred[positive]) / y_true[positive])) * 100.0
+    else:
+        mape = np.nan
     return {
         "rmse": float(np.sqrt(np.mean((y_true - y_pred) ** 2))),
-        "mae": float(mean_absolute_error(y_true, y_pred)),
-        "r2": float(r2_score(y_true, y_pred)),
+        "mape": float(mape),
     }
 
 
 def print_metrics(label: str, metrics: dict[str, float]) -> None:
-    print(f"{label}: RMSE={metrics['rmse']:.2f}, MAE={metrics['mae']:.2f}, R2={metrics['r2']:.4f}")
+    print(f"{label}: RMSE={metrics['rmse']:.2f}, MAPE={metrics['mape']:.2f}%")
 
 
 def fit_and_time(model, train_df: pd.DataFrame):
