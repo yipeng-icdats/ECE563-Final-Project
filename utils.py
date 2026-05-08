@@ -88,6 +88,10 @@ def heldout_test_mask(df: pd.DataFrame) -> pd.Series:
     return (df["year"] == 2008) & (~target_mask(df)) & (df["load"] > 0)
 
 
+def final_prediction_train_mask(df: pd.DataFrame) -> pd.Series:
+    return (df["year"] <= 2008) & (~target_mask(df)) & (df["load"] > 0)
+
+
 def history_fit_mask(df: pd.DataFrame, max_year: int, value_col: str) -> pd.Series:
     return (df["year"] <= max_year) & (~target_mask(df)) & (df[value_col] > 0)
 
@@ -361,6 +365,10 @@ def train_test_time_split(data: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFram
     test = data[heldout_test_mask(data)].copy()
     train = data[final_train_mask(data)].sample(frac=1.0, random_state=RANDOM_STATE).copy()
     return train, test
+
+
+def final_prediction_train_split(data: pd.DataFrame) -> pd.DataFrame:
+    return data[final_prediction_train_mask(data)].sample(frac=1.0, random_state=RANDOM_STATE).copy()
 
 
 def validation_split(data: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
