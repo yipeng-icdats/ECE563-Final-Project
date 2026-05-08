@@ -19,6 +19,7 @@ from config import (
     LOAD_CANDIDATES,
     MAPPING_PATH,
     PREDICTION_PATH,
+    RANDOM_STATE,
     TARGET_DAYS,
     TARGET_MONTH,
     TARGET_YEAR,
@@ -72,6 +73,82 @@ def target_mask(df: pd.DataFrame) -> pd.Series:
     )
 
 
+def _local_group_median(
+    df: pd.DataFrame,
+    value_col: str,
+    group_cols: list[str],
+    valid_mask: pd.Series,
+) -> pd.Series:
+    medians = (
+        df.loc[valid_mask, group_cols + [value_col]]
+        .groupby(group_cols)[value_col]
+        .median()
+        .rename("_local_median")
+    )
+    return df[group_cols].merge(medians, on=group_cols, how="left")["_local_median"]
+
+
+def clean_load_values(load_long: pd.DataFrame) -> pd.DataFrame:
+    """Impute invalid known load zeros and mask robust local outliers."""
+    out = load_long.copy()
+    out["load"] = out["load"].astype(float)
+    is_target = target_mask(out)
+
+    known_positive = (out["load"] > 0) & (~is_target)
+    zone_month_hour = _local_group_median(
+        out,
+        "load",
+        ["zone_id", "month", "hour"],
+        known_positive,
+    )
+    zone_hour = _local_group_median(out, "load", ["zone_id", "hour"], known_positive)
+    zone = _local_group_median(out, "load", ["zone_id"], known_positive)
+    local_fill = zone_month_hour.fillna(zone_hour).fillna(zone)
+
+    zero_defect = (out["load"] <= 0) & (~is_target)
+    out["load_was_imputed"] = zero_defect.astype(int)
+    out.loc[zero_defect, "load"] = local_fill.loc[zero_defect]
+
+    known = out["load"].notna() & (out["load"] > 0) & (~is_target)
+    stats = (
+        out.loc[known, ["zone_id", "month", "hour", "load"]]
+        .groupby(["zone_id", "month", "hour"])["load"]
+        .quantile([0.25, 0.50, 0.75])
+        .unstack()
+        .rename(columns={0.25: "q1", 0.50: "median", 0.75: "q3"})
+        .reset_index()
+    )
+    out = out.merge(stats, on=["zone_id", "month", "hour"], how="left")
+    iqr = out["q3"] - out["q1"]
+    low = out["q1"] - 3.0 * iqr
+    high = out["q3"] + 3.0 * iqr
+    outlier = known & iqr.gt(0) & ((out["load"] < low) | (out["load"] > high))
+    out["load_was_outlier"] = outlier.astype(int)
+    out.loc[outlier, "load"] = out.loc[outlier, "median"]
+    return out.drop(columns=["q1", "median", "q3"])
+
+
+def clean_temperature_values(temp_long: pd.DataFrame) -> pd.DataFrame:
+    """Impute impossible zero temperature readings without clipping real extremes."""
+    out = temp_long.copy()
+    out["temperature"] = out["temperature"].astype(float)
+    valid = out["temperature"] > 0
+    station_month_hour = _local_group_median(
+        out,
+        "temperature",
+        ["station_id", "month", "hour"],
+        valid,
+    )
+    station_hour = _local_group_median(out, "temperature", ["station_id", "hour"], valid)
+    station = _local_group_median(out, "temperature", ["station_id"], valid)
+    zero_defect = out["temperature"] <= 0
+    out["temperature_was_imputed"] = zero_defect.astype(int)
+    out.loc[zero_defect, "temperature"] = (
+        station_month_hour.fillna(station_hour).fillna(station).loc[zero_defect]
+    )
+    return out
+
+
 def load_mapping(path: Path = MAPPING_PATH) -> dict[str, int]:
     if not path.exists():
         return {str(zone): 1 for zone in range(1, 21)}
@@ -86,12 +163,29 @@ def save_json(obj: dict, path: Path) -> None:
         f.write("\n")
 
 
+def add_lag_features(data: pd.DataFrame) -> pd.DataFrame:
+    out = data.sort_values(["zone_id", "year", "month", "day", "hour"]).copy()
+    history_load = out["load"].where(~target_mask(out) & (out["load"] > 0))
+
+    out["_history_load"] = history_load
+    grouped = out.groupby(["zone_id", "hour"], sort=False)["_history_load"]
+    out["prev_day_same_hour_load"] = grouped.shift(1)
+    out["rolling_7d_same_hour_load"] = grouped.transform(
+        lambda series: series.shift(1).rolling(7, min_periods=2).mean()
+    )
+
+    fallback = out["zone_hour_month_mean"].fillna(out["zone_hour_mean"]).fillna(out["zone_mean"])
+    out["prev_day_same_hour_load"] = out["prev_day_same_hour_load"].fillna(fallback)
+    out["rolling_7d_same_hour_load"] = out["rolling_7d_same_hour_load"].fillna(fallback)
+    return out.drop(columns=["_history_load"])
+
+
 def prepare_model_frame(mapping: dict[str, int] | None = None) -> pd.DataFrame:
     load_df, temp_df = load_raw_data()
     mapping = mapping or load_mapping()
 
-    load_long = wide_to_long(load_df, "zone_id", "load")
-    temp_long = wide_to_long(temp_df, "station_id", "temperature")
+    load_long = clean_load_values(wide_to_long(load_df, "zone_id", "load"))
+    temp_long = clean_temperature_values(wide_to_long(temp_df, "station_id", "temperature"))
 
     frames = []
     for zone_id, station_id in sorted((int(k), int(v)) for k, v in mapping.items()):
@@ -129,6 +223,7 @@ def prepare_model_frame(mapping: dict[str, int] | None = None) -> pd.DataFrame:
     data["last_year_load"] = data["last_year_load"].fillna(data["zone_hour_month_mean"])
     data["zone_hour_month_mean"] = data["zone_hour_month_mean"].fillna(data["zone_hour_mean"])
     data["zone_hour_mean"] = data["zone_hour_mean"].fillna(data["zone_mean"])
+    data = add_lag_features(data)
     return data
 
 
@@ -154,6 +249,8 @@ FEATURE_COLUMNS = [
     "zone_hour_mean",
     "zone_mean",
     "last_year_load",
+    "prev_day_same_hour_load",
+    "rolling_7d_same_hour_load",
 ]
 
 CATEGORICAL_COLUMNS = ["zone_id", "station_id", "month", "hour", "dayofweek", "is_weekend"]
@@ -163,13 +260,13 @@ NUMERIC_COLUMNS = [col for col in FEATURE_COLUMNS if col not in CATEGORICAL_COLU
 def train_test_time_split(data: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     known = data[(data["load"] > 0) & (~target_mask(data))].copy()
     test = known[known["year"] == 2008].copy()
-    train = known[known["year"] < 2008].copy()
+    train = known[known["year"] < 2008].sample(frac=1.0, random_state=RANDOM_STATE).copy()
     return train, test
 
 
 def validation_split(data: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     known = data[(data["load"] > 0) & (~target_mask(data))].copy()
-    train = known[known["year"] <= 2006].copy()
+    train = known[known["year"] <= 2006].sample(frac=1.0, random_state=RANDOM_STATE).copy()
     valid = known[known["year"] == 2007].copy()
     test = known[known["year"] == 2008].copy()
     return train, valid, test
