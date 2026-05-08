@@ -149,12 +149,25 @@ def clean_temperature_values(temp_long: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
-def load_mapping(path: Path = MAPPING_PATH) -> dict[str, int]:
+def normalize_mapping(raw_mapping: dict) -> dict[str, list[int]]:
+    """Return a zone -> station-list mapping, accepting the old integer schema."""
+    mapping = {}
+    for zone, stations in raw_mapping.items():
+        if isinstance(stations, list):
+            mapping[str(zone)] = sorted({int(station) for station in stations})
+        elif stations is None:
+            mapping[str(zone)] = []
+        else:
+            mapping[str(zone)] = [int(stations)]
+    return mapping
+
+
+def load_mapping(path: Path = MAPPING_PATH) -> dict[str, list[int]]:
     if not path.exists():
-        return {str(zone): 1 for zone in range(1, 21)}
+        return {str(zone): [1] for zone in range(1, 21)}
     with path.open("r", encoding="utf-8") as f:
         raw = json.load(f)
-    return {str(k): int(v) for k, v in raw.items()}
+    return normalize_mapping(raw)
 
 
 def save_json(obj: dict, path: Path) -> None:
@@ -180,31 +193,86 @@ def add_lag_features(data: pd.DataFrame) -> pd.DataFrame:
     return out.drop(columns=["_history_load"])
 
 
-def prepare_model_frame(mapping: dict[str, int] | None = None) -> pd.DataFrame:
+def temp_station_column(station_id: int) -> str:
+    return f"temp_station_{int(station_id)}"
+
+
+def pivot_station_temperatures(temp_long: pd.DataFrame) -> pd.DataFrame:
+    temp_wide = temp_long.pivot_table(
+        index=["year", "month", "day", "hour"],
+        columns="station_id",
+        values="temperature",
+        aggfunc="first",
+    )
+    temp_wide = temp_wide.rename(columns={col: temp_station_column(int(col)) for col in temp_wide.columns})
+    temp_wide = temp_wide.reset_index()
+    station_cols = [col for col in temp_wide.columns if col.startswith("temp_station_")]
+    temp_wide["regional_temp_mean"] = temp_wide[station_cols].mean(axis=1)
+    temp_wide["regional_temp_min"] = temp_wide[station_cols].min(axis=1)
+    temp_wide["regional_temp_max"] = temp_wide[station_cols].max(axis=1)
+    temp_wide["regional_temp_std"] = temp_wide[station_cols].std(axis=1).fillna(0.0)
+    return temp_wide
+
+
+def add_mapped_temperature_features(data: pd.DataFrame, mapping: dict[str, list[int]]) -> pd.DataFrame:
+    out = data.copy()
+    station_cols = [col for col in out.columns if col.startswith("temp_station_")]
+    available_station_ids = {
+        int(col.replace("temp_station_", "")): col for col in station_cols
+    }
+
+    out["mapped_temp_mean"] = np.nan
+    out["mapped_temp_min"] = np.nan
+    out["mapped_temp_max"] = np.nan
+    out["mapped_temp_std"] = np.nan
+    out["mapped_station_count"] = 0
+
+    for zone_id in sorted(out["zone_id"].unique()):
+        selected_cols = [
+            available_station_ids[station_id]
+            for station_id in mapping.get(str(int(zone_id)), [])
+            if station_id in available_station_ids
+        ]
+        zone_mask = out["zone_id"] == zone_id
+        out.loc[zone_mask, "mapped_station_count"] = len(selected_cols)
+        if selected_cols:
+            temps = out.loc[zone_mask, selected_cols]
+            out.loc[zone_mask, "mapped_temp_mean"] = temps.mean(axis=1)
+            out.loc[zone_mask, "mapped_temp_min"] = temps.min(axis=1)
+            out.loc[zone_mask, "mapped_temp_max"] = temps.max(axis=1)
+            out.loc[zone_mask, "mapped_temp_std"] = temps.std(axis=1).fillna(0.0)
+
+    fallback = {
+        "mapped_temp_mean": "regional_temp_mean",
+        "mapped_temp_min": "regional_temp_min",
+        "mapped_temp_max": "regional_temp_max",
+        "mapped_temp_std": "regional_temp_std",
+    }
+    for mapped_col, regional_col in fallback.items():
+        out[mapped_col] = out[mapped_col].fillna(out[regional_col])
+    out["mapped_temp_sq"] = out["mapped_temp_mean"] ** 2
+    out["mapped_cooling_degree"] = np.maximum(out["mapped_temp_mean"] - 65.0, 0.0)
+    out["mapped_heating_degree"] = np.maximum(65.0 - out["mapped_temp_mean"], 0.0)
+    return out
+
+
+def prepare_model_frame(mapping: dict[str, list[int]] | None = None) -> pd.DataFrame:
     load_df, temp_df = load_raw_data()
     mapping = mapping or load_mapping()
+    mapping = normalize_mapping(mapping)
 
     load_long = clean_load_values(wide_to_long(load_df, "zone_id", "load"))
     temp_long = clean_temperature_values(wide_to_long(temp_df, "station_id", "temperature"))
 
-    frames = []
-    for zone_id, station_id in sorted((int(k), int(v)) for k, v in mapping.items()):
-        z = load_long[load_long["zone_id"] == zone_id]
-        s = temp_long[temp_long["station_id"] == station_id]
-        merged = z.merge(
-            s,
-            on=["year", "month", "day", "hour"],
-            how="left",
-            validate="many_to_one",
-        )
-        frames.append(merged)
-
-    data = pd.concat(frames, ignore_index=True)
-    data["station_id"] = data["station_id"].astype(int)
+    temp_wide = pivot_station_temperatures(temp_long)
+    data = load_long.merge(
+        temp_wide,
+        on=["year", "month", "day", "hour"],
+        how="left",
+        validate="many_to_one",
+    )
+    data = add_mapped_temperature_features(data, mapping)
     data = add_calendar_features(data)
-    data["temp_sq"] = data["temperature"] ** 2
-    data["cooling_degree"] = np.maximum(data["temperature"] - 65.0, 0.0)
-    data["heating_degree"] = np.maximum(65.0 - data["temperature"], 0.0)
 
     known = data[(data["load"] > 0) & (~target_mask(data))]
     zone_hour_month_mean = (
@@ -229,7 +297,6 @@ def prepare_model_frame(mapping: dict[str, int] | None = None) -> pd.DataFrame:
 
 FEATURE_COLUMNS = [
     "zone_id",
-    "station_id",
     "year",
     "month",
     "day",
@@ -237,10 +304,18 @@ FEATURE_COLUMNS = [
     "dayofweek",
     "dayofyear",
     "is_weekend",
-    "temperature",
-    "temp_sq",
-    "cooling_degree",
-    "heating_degree",
+    "mapped_temp_mean",
+    "mapped_temp_min",
+    "mapped_temp_max",
+    "mapped_temp_std",
+    "mapped_temp_sq",
+    "mapped_cooling_degree",
+    "mapped_heating_degree",
+    "mapped_station_count",
+    "regional_temp_mean",
+    "regional_temp_min",
+    "regional_temp_max",
+    "regional_temp_std",
     "sin_hour",
     "cos_hour",
     "sin_dayofyear",
@@ -253,7 +328,7 @@ FEATURE_COLUMNS = [
     "rolling_7d_same_hour_load",
 ]
 
-CATEGORICAL_COLUMNS = ["zone_id", "station_id", "month", "hour", "dayofweek", "is_weekend"]
+CATEGORICAL_COLUMNS = ["zone_id", "month", "hour", "dayofweek", "is_weekend"]
 NUMERIC_COLUMNS = [col for col in FEATURE_COLUMNS if col not in CATEGORICAL_COLUMNS]
 
 

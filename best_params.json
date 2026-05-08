@@ -7,16 +7,44 @@
     "min_samples_leaf": 30
   },
   "best_model_validation_metrics": {
-    "mae": 97732.12895143517,
-    "r2": 0.979466979793542,
-    "rmse": 179312.07814018842
+    "mae": 72176.81067774074,
+    "r2": 0.9888400925189312,
+    "rmse": 131853.6763004154
+  },
+  "mapping_summary": {
+    "combination_rule": "union",
+    "diagnostics_file": "mapping_diagnostics.json",
+    "preprocessing": "clean_load_values and clean_temperature_values applied before mapping",
+    "schema": "zone_id -> list[station_id]",
+    "station_count_by_zone": {
+      "1": 8,
+      "10": 11,
+      "11": 11,
+      "12": 5,
+      "13": 8,
+      "14": 10,
+      "15": 7,
+      "16": 10,
+      "17": 5,
+      "18": 11,
+      "19": 8,
+      "2": 11,
+      "20": 11,
+      "3": 6,
+      "4": 11,
+      "5": 2,
+      "6": 6,
+      "7": 7,
+      "8": 2,
+      "9": 10
+    }
   },
   "other_model": {
     "alpha": 0.1,
     "validation_metrics": {
-      "mae": 159433.0583913005,
-      "r2": 0.9543750886723541,
-      "rmse": 267290.8815117378
+      "mae": 116383.27282161848,
+      "r2": 0.9749909003264917,
+      "rmse": 197383.55870598851
     }
   },
   "random_state": 563,
