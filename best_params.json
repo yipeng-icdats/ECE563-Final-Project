@@ -7,8 +7,8 @@
     "min_samples_leaf": 30
   },
   "best_model_validation_metrics": {
-    "mape": 32.40045259056074,
-    "rmse": 184455.68413415697
+    "mape": 31.563493840830432,
+    "rmse": 184532.83776511956
   },
   "mapping_summary": {
     "combination_rule": "union",
@@ -44,8 +44,8 @@
   "other_model": {
     "alpha": 0.1,
     "validation_metrics": {
-      "mape": 141.71709900049166,
-      "rmse": 280853.9081577277
+      "mape": 141.7170990165324,
+      "rmse": 280853.9081529919
     }
   },
   "random_state": 563,
