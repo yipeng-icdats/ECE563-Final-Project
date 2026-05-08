@@ -423,7 +423,7 @@ def fit_and_time(model, train_df: pd.DataFrame):
 def evaluate_and_time(model, df: pd.DataFrame) -> tuple[dict[str, float], np.ndarray, float]:
     x, y = get_xy(df)
     start = time.perf_counter()
-    pred = model.predict(x)
+    pred = np.maximum(model.predict(x), 0.0)
     elapsed = time.perf_counter() - start
     return regression_metrics(y, pred), pred, elapsed
 
