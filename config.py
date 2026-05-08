@@ -5,17 +5,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 
-# The local workspace keeps the supplied files in ./data.  The course handout
-# mentions ../*.csv, so the loader checks both layouts without requiring edits.
+# The grading layout places the supplied CSV files in the parent directory above
+# the submitted code folder.
 LOAD_CANDIDATES = [
-    ROOT / "data" / "Load_history_final.csv",
     ROOT.parent / "Load_history_final.csv",
-    ROOT / "Load_history_final.csv",
 ]
 TEMP_CANDIDATES = [
-    ROOT / "data" / "Temp_history_final.csv",
     ROOT.parent / "Temp_history_final.csv",
-    ROOT / "Temp_history_final.csv",
 ]
 
 MAPPING_PATH = ROOT / "mapping.json"
