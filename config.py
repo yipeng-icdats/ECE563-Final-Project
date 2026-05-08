@@ -22,6 +22,7 @@ MAPPING_PATH = ROOT / "mapping.json"
 MAPPING_DIAGNOSTICS_PATH = ROOT / "mapping_diagnostics.json"
 BEST_PARAMS_PATH = ROOT / "best_params.json"
 PREDICTION_PATH = ROOT / "Load_prediction.csv"
+TUNING_REPORT_PATH = ROOT / "tuning_report.md"
 
 HOUR_COLUMNS = [f"h{i}" for i in range(1, 25)]
 TARGET_YEAR = 2008

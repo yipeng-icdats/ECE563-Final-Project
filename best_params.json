@@ -1,14 +1,882 @@
 {
   "best_model": {
-    "l2_regularization": 0.01,
+    "l2_regularization": 0.1,
     "learning_rate": 0.1,
-    "max_iter": 180,
+    "max_iter": 300,
     "max_leaf_nodes": 45,
     "min_samples_leaf": 30
   },
+  "best_model_candidate_count": 36,
+  "best_model_candidate_results": [
+    {
+      "fit_seconds": 10.42221020796569,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.1,
+        "max_iter": 300,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 1,
+      "selected": true,
+      "total_seconds": 11.418915999995079,
+      "train_metrics": {
+        "mape": 19.615066012072322,
+        "rmse": 76367.62086321699
+      },
+      "train_prediction_seconds": 0.7466925830231048,
+      "validation_metrics": {
+        "mape": 31.183981472479665,
+        "rmse": 177694.96902079345
+      },
+      "validation_prediction_seconds": 0.24710500001674518
+    },
+    {
+      "fit_seconds": 10.426383332989644,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.1,
+        "max_iter": 300,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 2,
+      "selected": false,
+      "total_seconds": 11.457913417019881,
+      "train_metrics": {
+        "mape": 17.854522957534392,
+        "rmse": 76593.03743071976
+      },
+      "train_prediction_seconds": 0.780251040996518,
+      "validation_metrics": {
+        "mape": 29.88453240448095,
+        "rmse": 179155.96739260553
+      },
+      "validation_prediction_seconds": 0.2488865830237046
+    },
+    {
+      "fit_seconds": 7.979149708000477,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.1,
+        "max_iter": 300,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 3,
+      "selected": false,
+      "total_seconds": 8.902947166003287,
+      "train_metrics": {
+        "mape": 19.23772209387043,
+        "rmse": 82740.4746338785
+      },
+      "train_prediction_seconds": 0.6945142499753274,
+      "validation_metrics": {
+        "mape": 31.52257702736248,
+        "rmse": 179458.48658351324
+      },
+      "validation_prediction_seconds": 0.22660708299372345
+    },
+    {
+      "fit_seconds": 10.859106083982624,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.08,
+        "max_iter": 300,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 4,
+      "selected": false,
+      "total_seconds": 11.937261415994726,
+      "train_metrics": {
+        "mape": 18.250615858777365,
+        "rmse": 79644.20850469732
+      },
+      "train_prediction_seconds": 0.822377750009764,
+      "validation_metrics": {
+        "mape": 29.693950338757546,
+        "rmse": 179637.11365468844
+      },
+      "validation_prediction_seconds": 0.25311637500999495
+    },
+    {
+      "fit_seconds": 7.930324874992948,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.1,
+        "max_iter": 300,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 5,
+      "selected": false,
+      "total_seconds": 8.853357165993657,
+      "train_metrics": {
+        "mape": 20.876958866890945,
+        "rmse": 82043.1676966088
+      },
+      "train_prediction_seconds": 0.6813625419745222,
+      "validation_metrics": {
+        "mape": 33.34758905114713,
+        "rmse": 180043.50647382985
+      },
+      "validation_prediction_seconds": 0.2392879169783555
+    },
+    {
+      "fit_seconds": 10.84756062499946,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.08,
+        "max_iter": 300,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 6,
+      "selected": false,
+      "total_seconds": 11.921987208013888,
+      "train_metrics": {
+        "mape": 18.703469165943424,
+        "rmse": 79537.63680151642
+      },
+      "train_prediction_seconds": 0.8201347499853,
+      "validation_metrics": {
+        "mape": 30.49325357539596,
+        "rmse": 180127.35729451734
+      },
+      "validation_prediction_seconds": 0.25142958300421014
+    },
+    {
+      "fit_seconds": 8.04311470797984,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.1,
+        "max_iter": 220,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 7,
+      "selected": false,
+      "total_seconds": 8.85120283300057,
+      "train_metrics": {
+        "mape": 19.1990147096055,
+        "rmse": 81424.28610307878
+      },
+      "train_prediction_seconds": 0.6158651250298135,
+      "validation_metrics": {
+        "mape": 31.271448054399787,
+        "rmse": 180736.40960038366
+      },
+      "validation_prediction_seconds": 0.18971333297668025
+    },
+    {
+      "fit_seconds": 8.124315916036721,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.1,
+        "max_iter": 220,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 8,
+      "selected": false,
+      "total_seconds": 8.94287649996113,
+      "train_metrics": {
+        "mape": 18.37589225036201,
+        "rmse": 81264.19409948777
+      },
+      "train_prediction_seconds": 0.6078572919941507,
+      "validation_metrics": {
+        "mape": 30.605887787921315,
+        "rmse": 181747.61983312588
+      },
+      "validation_prediction_seconds": 0.20805208303499967
+    },
+    {
+      "fit_seconds": 8.32965987501666,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.08,
+        "max_iter": 300,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 9,
+      "selected": false,
+      "total_seconds": 9.285662042035256,
+      "train_metrics": {
+        "mape": 20.303361764045842,
+        "rmse": 85432.23456943729
+      },
+      "train_prediction_seconds": 0.7203340000123717,
+      "validation_metrics": {
+        "mape": 32.88441837922687,
+        "rmse": 182655.51646019082
+      },
+      "validation_prediction_seconds": 0.23253012500936165
+    },
+    {
+      "fit_seconds": 8.610076833050698,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.08,
+        "max_iter": 220,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 10,
+      "selected": false,
+      "total_seconds": 9.583515250007622,
+      "train_metrics": {
+        "mape": 18.63141242555159,
+        "rmse": 84520.77511924204
+      },
+      "train_prediction_seconds": 0.7672002500039525,
+      "validation_metrics": {
+        "mape": 30.38197785733974,
+        "rmse": 183010.9515649624
+      },
+      "validation_prediction_seconds": 0.2027120840502903
+    },
+    {
+      "fit_seconds": 6.869877166987862,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.1,
+        "max_iter": 180,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 11,
+      "selected": false,
+      "total_seconds": 7.592772500007413,
+      "train_metrics": {
+        "mape": 19.42713586385,
+        "rmse": 84466.41542514163
+      },
+      "train_prediction_seconds": 0.5549532090080902,
+      "validation_metrics": {
+        "mape": 31.668983952704277,
+        "rmse": 183045.60126372313
+      },
+      "validation_prediction_seconds": 0.16530729102669284
+    },
+    {
+      "fit_seconds": 6.1875005409820005,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.1,
+        "max_iter": 220,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 12,
+      "selected": false,
+      "total_seconds": 6.9468993750051595,
+      "train_metrics": {
+        "mape": 19.83068287303518,
+        "rmse": 87368.82303981602
+      },
+      "train_prediction_seconds": 0.5769058330333792,
+      "validation_metrics": {
+        "mape": 32.57641202095787,
+        "rmse": 183194.09480441656
+      },
+      "validation_prediction_seconds": 0.17955795803572983
+    },
+    {
+      "fit_seconds": 8.41046462499071,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.08,
+        "max_iter": 300,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 13,
+      "selected": false,
+      "total_seconds": 9.441575124976225,
+      "train_metrics": {
+        "mape": 19.20112087913914,
+        "rmse": 85458.20333749334
+      },
+      "train_prediction_seconds": 0.7862602499662898,
+      "validation_metrics": {
+        "mape": 31.932676597821676,
+        "rmse": 183219.3623388911
+      },
+      "validation_prediction_seconds": 0.24214129196479917
+    },
+    {
+      "fit_seconds": 8.144772625004407,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.08,
+        "max_iter": 220,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 14,
+      "selected": false,
+      "total_seconds": 9.051989250001498,
+      "train_metrics": {
+        "mape": 19.224306269297,
+        "rmse": 84467.98676835165
+      },
+      "train_prediction_seconds": 0.696334249980282,
+      "validation_metrics": {
+        "mape": 31.539389915436832,
+        "rmse": 183627.44996546142
+      },
+      "validation_prediction_seconds": 0.20821816701209173
+    },
+    {
+      "fit_seconds": 6.178214374987874,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.1,
+        "max_iter": 220,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 15,
+      "selected": false,
+      "total_seconds": 6.9264185000211,
+      "train_metrics": {
+        "mape": 21.52585306446489,
+        "rmse": 86903.59781949634
+      },
+      "train_prediction_seconds": 0.565921250032261,
+      "validation_metrics": {
+        "mape": 34.24579313498587,
+        "rmse": 183947.0579054572
+      },
+      "validation_prediction_seconds": 0.1794004169641994
+    },
+    {
+      "fit_seconds": 6.979910333990119,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.1,
+        "max_iter": 180,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 16,
+      "selected": false,
+      "total_seconds": 7.715822666999884,
+      "train_metrics": {
+        "mape": 18.713772619823928,
+        "rmse": 84515.32017879972
+      },
+      "train_prediction_seconds": 0.5636935000075027,
+      "validation_metrics": {
+        "mape": 31.563493840830432,
+        "rmse": 184532.83776511956
+      },
+      "validation_prediction_seconds": 0.16920895798830315
+    },
+    {
+      "fit_seconds": 11.511427582998294,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.05,
+        "max_iter": 300,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 17,
+      "selected": false,
+      "total_seconds": 12.795255291974172,
+      "train_metrics": {
+        "mape": 19.578786140755913,
+        "rmse": 86730.74723169596
+      },
+      "train_prediction_seconds": 0.9891369999968447,
+      "validation_metrics": {
+        "mape": 32.524881572633504,
+        "rmse": 185489.56529394252
+      },
+      "validation_prediction_seconds": 0.2917743750149384
+    },
+    {
+      "fit_seconds": 11.525580415967852,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.05,
+        "max_iter": 300,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 18,
+      "selected": false,
+      "total_seconds": 12.752207624958828,
+      "train_metrics": {
+        "mape": 19.162234442172497,
+        "rmse": 86720.86674752894
+      },
+      "train_prediction_seconds": 0.9298045419855043,
+      "validation_metrics": {
+        "mape": 31.801258170250936,
+        "rmse": 185642.52884319727
+      },
+      "validation_prediction_seconds": 0.2941209169803187
+    },
+    {
+      "fit_seconds": 5.014701541978866,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.1,
+        "max_iter": 180,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 19,
+      "selected": false,
+      "total_seconds": 5.675744167005178,
+      "train_metrics": {
+        "mape": 20.828884650888675,
+        "rmse": 90329.15916436265
+      },
+      "train_prediction_seconds": 0.4927327500190586,
+      "validation_metrics": {
+        "mape": 34.22759190362849,
+        "rmse": 185842.70973329854
+      },
+      "validation_prediction_seconds": 0.1656877089990303
+    },
+    {
+      "fit_seconds": 6.8003856660216115,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.08,
+        "max_iter": 180,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 20,
+      "selected": false,
+      "total_seconds": 7.56129454204347,
+      "train_metrics": {
+        "mape": 18.83627048244052,
+        "rmse": 87795.4319621631
+      },
+      "train_prediction_seconds": 0.5848794580087997,
+      "validation_metrics": {
+        "mape": 31.018026890831234,
+        "rmse": 186004.83780217456
+      },
+      "validation_prediction_seconds": 0.17303433397319168
+    },
+    {
+      "fit_seconds": 4.89427158300532,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.1,
+        "max_iter": 180,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 21,
+      "selected": false,
+      "total_seconds": 5.5315146669745445,
+      "train_metrics": {
+        "mape": 22.23776326252124,
+        "rmse": 89842.05659903443
+      },
+      "train_prediction_seconds": 0.47787208296358585,
+      "validation_metrics": {
+        "mape": 35.07765910630921,
+        "rmse": 186560.87355137913
+      },
+      "validation_prediction_seconds": 0.1569060409674421
+    },
+    {
+      "fit_seconds": 7.114383041975088,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.08,
+        "max_iter": 180,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 22,
+      "selected": false,
+      "total_seconds": 7.907683249970432,
+      "train_metrics": {
+        "mape": 19.426572856816605,
+        "rmse": 87744.68698246602
+      },
+      "train_prediction_seconds": 0.6185427500167862,
+      "validation_metrics": {
+        "mape": 32.023344538220485,
+        "rmse": 186704.29243479276
+      },
+      "validation_prediction_seconds": 0.1719035420101136
+    },
+    {
+      "fit_seconds": 6.390120416996069,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.08,
+        "max_iter": 220,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 23,
+      "selected": false,
+      "total_seconds": 7.237976583011914,
+      "train_metrics": {
+        "mape": 19.370480108027103,
+        "rmse": 90132.20963030032
+      },
+      "train_prediction_seconds": 0.6445654160343111,
+      "validation_metrics": {
+        "mape": 32.585643641802605,
+        "rmse": 187169.239696897
+      },
+      "validation_prediction_seconds": 0.20005862502148375
+    },
+    {
+      "fit_seconds": 6.003762875043321,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.08,
+        "max_iter": 220,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 24,
+      "selected": false,
+      "total_seconds": 6.796937040984631,
+      "train_metrics": {
+        "mape": 21.304655468165084,
+        "rmse": 90085.39067070046
+      },
+      "train_prediction_seconds": 0.607641542039346,
+      "validation_metrics": {
+        "mape": 34.511266194374784,
+        "rmse": 187226.1721613129
+      },
+      "validation_prediction_seconds": 0.18264420900959522
+    },
+    {
+      "fit_seconds": 8.092059833055828,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.05,
+        "max_iter": 300,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 25,
+      "selected": false,
+      "total_seconds": 9.19932549999794,
+      "train_metrics": {
+        "mape": 20.708222934885654,
+        "rmse": 92559.25214115636
+      },
+      "train_prediction_seconds": 0.8391226250096224,
+      "validation_metrics": {
+        "mape": 33.78546981064974,
+        "rmse": 189870.19974935983
+      },
+      "validation_prediction_seconds": 0.26454433298204094
+    },
+    {
+      "fit_seconds": 8.630671749997418,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.05,
+        "max_iter": 300,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 26,
+      "selected": false,
+      "total_seconds": 9.775418457982596,
+      "train_metrics": {
+        "mape": 20.923041248326545,
+        "rmse": 92585.45208129699
+      },
+      "train_prediction_seconds": 0.8824223339906894,
+      "validation_metrics": {
+        "mape": 34.41045616964633,
+        "rmse": 190000.35951507802
+      },
+      "validation_prediction_seconds": 0.25804787495872006
+    },
+    {
+      "fit_seconds": 5.124456709017977,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.08,
+        "max_iter": 180,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 27,
+      "selected": false,
+      "total_seconds": 5.78716812498169,
+      "train_metrics": {
+        "mape": 21.982162328804687,
+        "rmse": 93309.43626476532
+      },
+      "train_prediction_seconds": 0.5017152079963125,
+      "validation_metrics": {
+        "mape": 35.50100529535378,
+        "rmse": 190563.33967312498
+      },
+      "validation_prediction_seconds": 0.15805779199581593
+    },
+    {
+      "fit_seconds": 8.671831250016112,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.05,
+        "max_iter": 220,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 28,
+      "selected": false,
+      "total_seconds": 9.687044667021837,
+      "train_metrics": {
+        "mape": 20.73113000261634,
+        "rmse": 92055.39582486598
+      },
+      "train_prediction_seconds": 0.7925918329856358,
+      "validation_metrics": {
+        "mape": 34.36471526938226,
+        "rmse": 190825.1273436049
+      },
+      "validation_prediction_seconds": 0.21934299997519702
+    },
+    {
+      "fit_seconds": 5.114658499951474,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.08,
+        "max_iter": 180,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 29,
+      "selected": false,
+      "total_seconds": 5.761730667029042,
+      "train_metrics": {
+        "mape": 20.0855817790164,
+        "rmse": 93654.80366611473
+      },
+      "train_prediction_seconds": 0.4934070829767734,
+      "validation_metrics": {
+        "mape": 33.72951424697207,
+        "rmse": 190971.83199253297
+      },
+      "validation_prediction_seconds": 0.15105341601883993
+    },
+    {
+      "fit_seconds": 8.434655457967892,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.05,
+        "max_iter": 220,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 30,
+      "selected": false,
+      "total_seconds": 9.452043000026606,
+      "train_metrics": {
+        "mape": 20.304918078012694,
+        "rmse": 92254.52180086513
+      },
+      "train_prediction_seconds": 0.7811690830276348,
+      "validation_metrics": {
+        "mape": 33.9724842584647,
+        "rmse": 191162.12213815338
+      },
+      "validation_prediction_seconds": 0.23241779202362522
+    },
+    {
+      "fit_seconds": 7.488511083996855,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.05,
+        "max_iter": 180,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 31,
+      "selected": false,
+      "total_seconds": 8.327435082988814,
+      "train_metrics": {
+        "mape": 21.875821162706753,
+        "rmse": 96055.91273095929
+      },
+      "train_prediction_seconds": 0.6516685000387952,
+      "validation_metrics": {
+        "mape": 35.84476183888165,
+        "rmse": 195145.4210441554
+      },
+      "validation_prediction_seconds": 0.18351729202549905
+    },
+    {
+      "fit_seconds": 6.324539792025462,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.05,
+        "max_iter": 220,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 32,
+      "selected": false,
+      "total_seconds": 7.214249583019409,
+      "train_metrics": {
+        "mape": 22.21531153983458,
+        "rmse": 97836.49872478773
+      },
+      "train_prediction_seconds": 0.6818898749770597,
+      "validation_metrics": {
+        "mape": 36.138368997111876,
+        "rmse": 195204.65316059848
+      },
+      "validation_prediction_seconds": 0.20409999997355044
+    },
+    {
+      "fit_seconds": 7.3081231249962,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.05,
+        "max_iter": 180,
+        "max_leaf_nodes": 45,
+        "min_samples_leaf": 30
+      },
+      "rank": 33,
+      "selected": false,
+      "total_seconds": 8.157652832975145,
+      "train_metrics": {
+        "mape": 21.518098284137952,
+        "rmse": 96170.55936348338
+      },
+      "train_prediction_seconds": 0.6601824589888565,
+      "validation_metrics": {
+        "mape": 35.60337352746838,
+        "rmse": 195513.15056054152
+      },
+      "validation_prediction_seconds": 0.185456958017312
+    },
+    {
+      "fit_seconds": 6.55752970802132,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.05,
+        "max_iter": 220,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 34,
+      "selected": false,
+      "total_seconds": 7.411685875034891,
+      "train_metrics": {
+        "mape": 22.228597884691684,
+        "rmse": 97946.25384444097
+      },
+      "train_prediction_seconds": 0.6513274589669891,
+      "validation_metrics": {
+        "mape": 36.59618134973196,
+        "rmse": 195553.02525548625
+      },
+      "validation_prediction_seconds": 0.19898641598410904
+    },
+    {
+      "fit_seconds": 5.691134791006334,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.01,
+        "learning_rate": 0.05,
+        "max_iter": 180,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 35,
+      "selected": false,
+      "total_seconds": 6.441459457972087,
+      "train_metrics": {
+        "mape": 24.02777875287541,
+        "rmse": 101859.37348838443
+      },
+      "train_prediction_seconds": 0.5765302499639802,
+      "validation_metrics": {
+        "mape": 38.06831542721548,
+        "rmse": 200016.51617128082
+      },
+      "validation_prediction_seconds": 0.17000883299624547
+    },
+    {
+      "fit_seconds": 5.686799042043276,
+      "model": "HistGradientBoostingRegressor",
+      "params": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.05,
+        "max_iter": 180,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30
+      },
+      "rank": 36,
+      "selected": false,
+      "total_seconds": 6.4621128749568015,
+      "train_metrics": {
+        "mape": 24.348657869991,
+        "rmse": 101998.8580809773
+      },
+      "train_prediction_seconds": 0.5988391249557026,
+      "validation_metrics": {
+        "mape": 38.937158185865236,
+        "rmse": 200330.7317047277
+      },
+      "validation_prediction_seconds": 0.1724447919987142
+    }
+  ],
+  "best_model_tuning_runtime_seconds": 308.7780560000101,
   "best_model_validation_metrics": {
-    "mape": 31.563493840830432,
-    "rmse": 184532.83776511956
+    "mape": 31.183981472479665,
+    "rmse": 177694.96902079345
   },
   "mapping_summary": {
     "combination_rule": "union",
@@ -42,12 +910,259 @@
     }
   },
   "other_model": {
-    "alpha": 0.1,
+    "alpha": 0.001,
     "validation_metrics": {
-      "mape": 141.7170990165324,
-      "rmse": 280853.9081529919
+      "mape": 142.00969742230197,
+      "rmse": 280766.30422526837
     }
   },
+  "other_model_candidate_count": 12,
+  "other_model_candidate_results": [
+    {
+      "fit_seconds": 0.6149250000016764,
+      "model": "Ridge Regression",
+      "params": {
+        "alpha": 0.001
+      },
+      "rank": 1,
+      "selected": true,
+      "total_seconds": 0.97228562500095,
+      "train_metrics": {
+        "mape": 127.1443378639034,
+        "rmse": 165650.6757554544
+      },
+      "train_prediction_seconds": 0.24948508304078132,
+      "validation_metrics": {
+        "mape": 142.00969742230197,
+        "rmse": 280766.30422526837
+      },
+      "validation_prediction_seconds": 0.10364670801209286
+    },
+    {
+      "fit_seconds": 0.5554894579690881,
+      "model": "Ridge Regression",
+      "params": {
+        "alpha": 0.01
+      },
+      "rank": 2,
+      "selected": false,
+      "total_seconds": 0.9257435420295224,
+      "train_metrics": {
+        "mape": 127.14486457136185,
+        "rmse": 165650.67873609895
+      },
+      "train_prediction_seconds": 0.2688509580329992,
+      "validation_metrics": {
+        "mape": 141.97289193548022,
+        "rmse": 280777.14249104494
+      },
+      "validation_prediction_seconds": 0.09383512503700331
+    },
+    {
+      "fit_seconds": 0.5393866249942221,
+      "model": "Ridge Regression",
+      "params": {
+        "alpha": 0.1
+      },
+      "rank": 3,
+      "selected": false,
+      "total_seconds": 0.9034606250352226,
+      "train_metrics": {
+        "mape": 127.14921789880056,
+        "rmse": 165650.83672856004
+      },
+      "train_prediction_seconds": 0.27340645802905783,
+      "validation_metrics": {
+        "mape": 141.7170990165324,
+        "rmse": 280853.9081529919
+      },
+      "validation_prediction_seconds": 0.08520904200850055
+    },
+    {
+      "fit_seconds": 0.5672555419732817,
+      "model": "Ridge Regression",
+      "params": {
+        "alpha": 0.3
+      },
+      "rank": 4,
+      "selected": false,
+      "total_seconds": 0.9349696669960395,
+      "train_metrics": {
+        "mape": 127.15492481582973,
+        "rmse": 165651.24336457803
+      },
+      "train_prediction_seconds": 0.27590729197254404,
+      "validation_metrics": {
+        "mape": 141.46410994321022,
+        "rmse": 280932.8719499281
+      },
+      "validation_prediction_seconds": 0.0877217500237748
+    },
+    {
+      "fit_seconds": 0.542581915971823,
+      "model": "Ridge Regression",
+      "params": {
+        "alpha": 1.0
+      },
+      "rank": 5,
+      "selected": false,
+      "total_seconds": 0.9193891250179149,
+      "train_metrics": {
+        "mape": 127.16264636656179,
+        "rmse": 165651.85914720857
+      },
+      "train_prediction_seconds": 0.27212733298074454,
+      "validation_metrics": {
+        "mape": 141.2316887457618,
+        "rmse": 281009.3200526024
+      },
+      "validation_prediction_seconds": 0.10087462502997369
+    },
+    {
+      "fit_seconds": 0.5571924999821931,
+      "model": "Ridge Regression",
+      "params": {
+        "alpha": 3.0
+      },
+      "rank": 6,
+      "selected": false,
+      "total_seconds": 0.9112992910086177,
+      "train_metrics": {
+        "mape": 127.17098306609608,
+        "rmse": 165652.23637349368
+      },
+      "train_prediction_seconds": 0.26794749998953193,
+      "validation_metrics": {
+        "mape": 141.13106050593166,
+        "rmse": 281048.48456908966
+      },
+      "validation_prediction_seconds": 0.08092854201095179
+    },
+    {
+      "fit_seconds": 0.5244099170085974,
+      "model": "Ridge Regression",
+      "params": {
+        "alpha": 10.0
+      },
+      "rank": 7,
+      "selected": false,
+      "total_seconds": 0.886042041995097,
+      "train_metrics": {
+        "mape": 127.19072473347006,
+        "rmse": 165652.5125751007
+      },
+      "train_prediction_seconds": 0.2679276670096442,
+      "validation_metrics": {
+        "mape": 141.1158652796432,
+        "rmse": 281075.4392811888
+      },
+      "validation_prediction_seconds": 0.08926620800048113
+    },
+    {
+      "fit_seconds": 0.5047018329496495,
+      "model": "Ridge Regression",
+      "params": {
+        "alpha": 30.0
+      },
+      "rank": 8,
+      "selected": false,
+      "total_seconds": 0.8739632499637082,
+      "train_metrics": {
+        "mape": 127.2445003485483,
+        "rmse": 165653.46119207898
+      },
+      "train_prediction_seconds": 0.2591367090353742,
+      "validation_metrics": {
+        "mape": 141.19048378834077,
+        "rmse": 281113.106956177
+      },
+      "validation_prediction_seconds": 0.10628041694872081
+    },
+    {
+      "fit_seconds": 0.5557782499818131,
+      "model": "Ridge Regression",
+      "params": {
+        "alpha": 50.0
+      },
+      "rank": 9,
+      "selected": false,
+      "total_seconds": 0.9470049160299823,
+      "train_metrics": {
+        "mape": 127.29969768049325,
+        "rmse": 165655.17255805377
+      },
+      "train_prediction_seconds": 0.26746208302211016,
+      "validation_metrics": {
+        "mape": 141.27875302504967,
+        "rmse": 281146.0734980088
+      },
+      "validation_prediction_seconds": 0.11253541702171788
+    },
+    {
+      "fit_seconds": 0.5583979589864612,
+      "model": "Ridge Regression",
+      "params": {
+        "alpha": 100.0
+      },
+      "rank": 10,
+      "selected": false,
+      "total_seconds": 0.9364972920157015,
+      "train_metrics": {
+        "mape": 127.44443051504786,
+        "rmse": 165662.45995185873
+      },
+      "train_prediction_seconds": 0.2773856249987148,
+      "validation_metrics": {
+        "mape": 141.51103168490746,
+        "rmse": 281222.7207997103
+      },
+      "validation_prediction_seconds": 0.09666716697392985
+    },
+    {
+      "fit_seconds": 0.5399270000052638,
+      "model": "Ridge Regression",
+      "params": {
+        "alpha": 300.0
+      },
+      "rank": 11,
+      "selected": false,
+      "total_seconds": 0.9065284169628285,
+      "train_metrics": {
+        "mape": 128.06794290963268,
+        "rmse": 165721.2785701276
+      },
+      "train_prediction_seconds": 0.26584837498376146,
+      "validation_metrics": {
+        "mape": 142.47941240343926,
+        "rmse": 281478.0620110561
+      },
+      "validation_prediction_seconds": 0.0953728340100497
+    },
+    {
+      "fit_seconds": 0.5415270419907756,
+      "model": "Ridge Regression",
+      "params": {
+        "alpha": 1000.0
+      },
+      "rank": 12,
+      "selected": false,
+      "total_seconds": 0.9452435829443857,
+      "train_metrics": {
+        "mape": 130.2383225594437,
+        "rmse": 166069.7659453245
+      },
+      "train_prediction_seconds": 0.30185537500074133,
+      "validation_metrics": {
+        "mape": 145.499893980495,
+        "rmse": 281998.2977226253
+      },
+      "validation_prediction_seconds": 0.09738504100823775
+    }
+  ],
+  "other_model_tuning_runtime_seconds": 11.065276915964205,
   "random_state": 563,
-  "split_strategy": "train <= 2006, validation = 2007, test = 2008 known nonzero rows"
+  "selection_metric": "validation_rmse",
+  "split_strategy": "train <= 2006, validation = 2007, test = 2008 known nonzero rows",
+  "tuning_report": "tuning_report.md",
+  "tuning_runtime_seconds": 322.0633942919667
 }
