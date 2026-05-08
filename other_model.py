@@ -37,7 +37,7 @@ def main() -> None:
     params = load_other_params()
     alpha = float(params.get("alpha", DEFAULT_OTHER_PARAMS["alpha"]))
 
-    data = prepare_model_frame(mapping)
+    data = prepare_model_frame(mapping, stats_fit_year_max=2007)
     train_df, test_df = train_test_time_split(data)
     model = make_linear_pipeline(Ridge(alpha=alpha))
 
@@ -47,7 +47,8 @@ def main() -> None:
 
     print("Model: Ridge Regression baseline")
     print(f"Hyperparameters: alpha={alpha}")
-    print("Split: train = 2004-2007 known loads, test = 2008 known nonzero loads")
+    print("Split: train = 2004-2007 known loads, held-out test = 2008 known non-target loads")
+    print("Preprocessing statistics fit through 2007 only; June 1-7, 2008 target rows are prediction-only")
     print_metrics("Training", train_metrics)
     print_metrics("Testing", test_metrics)
     print(f"Final training time: {train_time:.2f} seconds")

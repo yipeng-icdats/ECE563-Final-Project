@@ -73,6 +73,26 @@ def target_mask(df: pd.DataFrame) -> pd.Series:
     )
 
 
+def tuning_train_mask(df: pd.DataFrame) -> pd.Series:
+    return (df["year"] <= 2006) & (~target_mask(df)) & (df["load"] > 0)
+
+
+def validation_mask(df: pd.DataFrame) -> pd.Series:
+    return (df["year"] == 2007) & (~target_mask(df)) & (df["load"] > 0)
+
+
+def final_train_mask(df: pd.DataFrame) -> pd.Series:
+    return (df["year"] <= 2007) & (~target_mask(df)) & (df["load"] > 0)
+
+
+def heldout_test_mask(df: pd.DataFrame) -> pd.Series:
+    return (df["year"] == 2008) & (~target_mask(df)) & (df["load"] > 0)
+
+
+def history_fit_mask(df: pd.DataFrame, max_year: int, value_col: str) -> pd.Series:
+    return (df["year"] <= max_year) & (~target_mask(df)) & (df[value_col] > 0)
+
+
 def _local_group_median(
     df: pd.DataFrame,
     value_col: str,
@@ -88,13 +108,13 @@ def _local_group_median(
     return df[group_cols].merge(medians, on=group_cols, how="left")["_local_median"]
 
 
-def clean_load_values(load_long: pd.DataFrame) -> pd.DataFrame:
+def clean_load_values(load_long: pd.DataFrame, fit_year_max: int = 2007) -> pd.DataFrame:
     """Impute invalid known load zeros and mask robust local outliers."""
     out = load_long.copy()
     out["load"] = out["load"].astype(float)
     is_target = target_mask(out)
 
-    known_positive = (out["load"] > 0) & (~is_target)
+    known_positive = history_fit_mask(out, fit_year_max, "load")
     zone_month_hour = _local_group_median(
         out,
         "load",
@@ -109,7 +129,7 @@ def clean_load_values(load_long: pd.DataFrame) -> pd.DataFrame:
     out["load_was_imputed"] = zero_defect.astype(int)
     out.loc[zero_defect, "load"] = local_fill.loc[zero_defect]
 
-    known = out["load"].notna() & (out["load"] > 0) & (~is_target)
+    known = out["load"].notna() & history_fit_mask(out, fit_year_max, "load")
     stats = (
         out.loc[known, ["zone_id", "month", "hour", "load"]]
         .groupby(["zone_id", "month", "hour"])["load"]
@@ -128,11 +148,11 @@ def clean_load_values(load_long: pd.DataFrame) -> pd.DataFrame:
     return out.drop(columns=["q1", "median", "q3"])
 
 
-def clean_temperature_values(temp_long: pd.DataFrame) -> pd.DataFrame:
+def clean_temperature_values(temp_long: pd.DataFrame, fit_year_max: int = 2007) -> pd.DataFrame:
     """Impute impossible zero temperature readings without clipping real extremes."""
     out = temp_long.copy()
     out["temperature"] = out["temperature"].astype(float)
-    valid = out["temperature"] > 0
+    valid = history_fit_mask(out, fit_year_max, "temperature")
     station_month_hour = _local_group_median(
         out,
         "temperature",
@@ -176,9 +196,9 @@ def save_json(obj: dict, path: Path) -> None:
         f.write("\n")
 
 
-def add_lag_features(data: pd.DataFrame) -> pd.DataFrame:
+def add_lag_features(data: pd.DataFrame, history_year_max: int) -> pd.DataFrame:
     out = data.sort_values(["zone_id", "year", "month", "day", "hour"]).copy()
-    history_load = out["load"].where(~target_mask(out) & (out["load"] > 0))
+    history_load = out["load"].where(history_fit_mask(out, history_year_max, "load"))
 
     out["_history_load"] = history_load
     grouped = out.groupby(["zone_id", "hour"], sort=False)["_history_load"]
@@ -256,13 +276,19 @@ def add_mapped_temperature_features(data: pd.DataFrame, mapping: dict[str, list[
     return out
 
 
-def prepare_model_frame(mapping: dict[str, list[int]] | None = None) -> pd.DataFrame:
+def prepare_model_frame(
+    mapping: dict[str, list[int]] | None = None,
+    stats_fit_year_max: int = 2007,
+) -> pd.DataFrame:
     load_df, temp_df = load_raw_data()
     mapping = mapping or load_mapping()
     mapping = normalize_mapping(mapping)
 
-    load_long = clean_load_values(wide_to_long(load_df, "zone_id", "load"))
-    temp_long = clean_temperature_values(wide_to_long(temp_df, "station_id", "temperature"))
+    load_long = clean_load_values(wide_to_long(load_df, "zone_id", "load"), stats_fit_year_max)
+    temp_long = clean_temperature_values(
+        wide_to_long(temp_df, "station_id", "temperature"),
+        stats_fit_year_max,
+    )
 
     temp_wide = pivot_station_temperatures(temp_long)
     data = load_long.merge(
@@ -274,7 +300,7 @@ def prepare_model_frame(mapping: dict[str, list[int]] | None = None) -> pd.DataF
     data = add_mapped_temperature_features(data, mapping)
     data = add_calendar_features(data)
 
-    known = data[(data["load"] > 0) & (~target_mask(data))]
+    known = data[history_fit_mask(data, stats_fit_year_max, "load")]
     zone_hour_month_mean = (
         known.groupby(["zone_id", "month", "hour"])["load"].mean().rename("zone_hour_month_mean")
     )
@@ -291,7 +317,7 @@ def prepare_model_frame(mapping: dict[str, list[int]] | None = None) -> pd.DataF
     data["last_year_load"] = data["last_year_load"].fillna(data["zone_hour_month_mean"])
     data["zone_hour_month_mean"] = data["zone_hour_month_mean"].fillna(data["zone_hour_mean"])
     data["zone_hour_mean"] = data["zone_hour_mean"].fillna(data["zone_mean"])
-    data = add_lag_features(data)
+    data = add_lag_features(data, stats_fit_year_max)
     return data
 
 
@@ -333,17 +359,15 @@ NUMERIC_COLUMNS = [col for col in FEATURE_COLUMNS if col not in CATEGORICAL_COLU
 
 
 def train_test_time_split(data: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
-    known = data[(data["load"] > 0) & (~target_mask(data))].copy()
-    test = known[known["year"] == 2008].copy()
-    train = known[known["year"] < 2008].sample(frac=1.0, random_state=RANDOM_STATE).copy()
+    test = data[heldout_test_mask(data)].copy()
+    train = data[final_train_mask(data)].sample(frac=1.0, random_state=RANDOM_STATE).copy()
     return train, test
 
 
 def validation_split(data: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    known = data[(data["load"] > 0) & (~target_mask(data))].copy()
-    train = known[known["year"] <= 2006].sample(frac=1.0, random_state=RANDOM_STATE).copy()
-    valid = known[known["year"] == 2007].copy()
-    test = known[known["year"] == 2008].copy()
+    train = data[tuning_train_mask(data)].sample(frac=1.0, random_state=RANDOM_STATE).copy()
+    valid = data[validation_mask(data)].copy()
+    test = data[heldout_test_mask(data)].copy()
     return train, valid, test
 
 

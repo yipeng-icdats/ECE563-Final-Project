@@ -48,8 +48,11 @@ from utils import (
 
 def prepare_mapping_frame() -> tuple[pd.DataFrame, list[int], list[str]]:
     load_df, temp_df = load_raw_data()
-    load_long = clean_load_values(wide_to_long(load_df, "zone_id", "load"))
-    temp_long = clean_temperature_values(wide_to_long(temp_df, "station_id", "temperature"))
+    load_long = clean_load_values(wide_to_long(load_df, "zone_id", "load"), fit_year_max=2006)
+    temp_long = clean_temperature_values(
+        wide_to_long(temp_df, "station_id", "temperature"),
+        fit_year_max=2006,
+    )
     temp_wide = pivot_station_temperatures(temp_long)
     station_ids = sorted(temp_long["station_id"].astype(int).unique())
     station_cols = [f"temp_station_{station_id}" for station_id in station_ids]
@@ -61,7 +64,7 @@ def prepare_mapping_frame() -> tuple[pd.DataFrame, list[int], list[str]]:
         validate="many_to_one",
     )
     data = add_calendar_features(data)
-    data = data[(data["load"] > 0) & (data["year"] <= 2008)].copy()
+    data = data[(data["load"] > 0) & (data["year"] <= 2006)].copy()
     return data, station_ids, station_cols
 
 
@@ -78,8 +81,8 @@ def select_by_pearson(zone_df: pd.DataFrame, station_ids: list[int], station_col
 
 
 def select_by_ml(zone_df: pd.DataFrame, station_ids: list[int], station_cols: list[str]) -> tuple[list[int], dict[str, float]]:
-    train = zone_df[zone_df["year"] <= 2006].copy()
-    valid = zone_df[zone_df["year"] == 2007].copy()
+    train = zone_df[zone_df["year"] <= 2005].copy()
+    valid = zone_df[zone_df["year"] == 2006].copy()
     if train.empty or valid.empty:
         return [], {str(station_id): 0.0 for station_id in station_ids}
 
@@ -134,6 +137,11 @@ def determine_mapping() -> tuple[dict[str, list[int]], dict]:
     diagnostics = {
         "method": "union of Pearson-correlation and ML permutation-importance selections",
         "preprocessing": "clean_load_values and clean_temperature_values applied before mapping",
+        "pearson_years": "2004-2006",
+        "ml_train_years": "2004-2005",
+        "ml_importance_year": "2006",
+        "validation_year": "2007",
+        "heldout_test_year": "2008 known non-target rows",
         "pearson_relative_threshold": PEARSON_RELATIVE_THRESHOLD,
         "pearson_min_threshold": PEARSON_MIN_THRESHOLD,
         "ml_importance_relative_threshold": ML_IMPORTANCE_RELATIVE_THRESHOLD,
@@ -160,7 +168,7 @@ def determine_mapping() -> tuple[dict[str, list[int]], dict]:
 
 
 def tune_models(mapping: dict[str, list[int]], mapping_diagnostics: dict) -> dict:
-    data = prepare_model_frame(mapping)
+    data = prepare_model_frame(mapping, stats_fit_year_max=2006)
     train, valid, _ = validation_split(data)
 
     ridge_grid = [0.1, 1.0, 10.0, 50.0, 100.0]
@@ -199,6 +207,9 @@ def tune_models(mapping: dict[str, list[int]], mapping_diagnostics: dict) -> dic
             "diagnostics_file": MAPPING_DIAGNOSTICS_PATH.name,
             "station_count_by_zone": {zone: len(stations) for zone, stations in mapping.items()},
             "preprocessing": mapping_diagnostics["preprocessing"],
+            "pearson_years": mapping_diagnostics["pearson_years"],
+            "ml_train_years": mapping_diagnostics["ml_train_years"],
+            "ml_importance_year": mapping_diagnostics["ml_importance_year"],
         },
         "other_model": {"alpha": best_ridge["alpha"], "validation_metrics": best_ridge["metrics"]},
         "best_model": best_hgb["params"],
