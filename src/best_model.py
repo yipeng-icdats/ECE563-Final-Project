@@ -16,6 +16,7 @@ from utils import (
     fit_and_time,
     load_best_params,
     load_mapping,
+    make_log_target_regressor,
     prepare_model_frame,
     print_metrics,
     top_errors,
@@ -32,13 +33,17 @@ def main() -> None:
     data = prepare_model_frame(mapping, stats_fit_year_max=2007)
     train_df, test_df = train_test_time_split(data)
     final_prediction_train_df = final_prediction_train_split(data)
-    model = HistGradientBoostingRegressor(random_state=RANDOM_STATE, **params)
+    model = make_log_target_regressor(
+        HistGradientBoostingRegressor(random_state=RANDOM_STATE, **params)
+    )
 
     model, train_time = fit_and_time(model, train_df)
     train_metrics, _, train_pred_time = evaluate_and_time(model, train_df)
     test_metrics, test_pred, test_pred_time = evaluate_and_time(model, test_df)
 
-    final_prediction_model = HistGradientBoostingRegressor(random_state=RANDOM_STATE, **params)
+    final_prediction_model = make_log_target_regressor(
+        HistGradientBoostingRegressor(random_state=RANDOM_STATE, **params)
+    )
     final_prediction_model, final_refit_time = fit_and_time(
         final_prediction_model,
         final_prediction_train_df,

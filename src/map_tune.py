@@ -39,6 +39,7 @@ from utils import (
     get_xy,
     load_raw_data,
     make_log_target_pipeline,
+    make_log_target_regressor,
     pivot_station_temperatures,
     prepare_model_frame,
     regression_metrics,
@@ -229,7 +230,9 @@ def build_hgb_grid() -> list[dict]:
 
 def evaluate_hgb_candidate(params: dict, train: pd.DataFrame, valid: pd.DataFrame) -> dict:
     candidate_start = time.perf_counter()
-    model = HistGradientBoostingRegressor(random_state=RANDOM_STATE, **params)
+    model = make_log_target_regressor(
+        HistGradientBoostingRegressor(random_state=RANDOM_STATE, **params)
+    )
 
     fit_start = time.perf_counter()
     model.fit(train[FEATURE_COLUMNS], train["load"])

@@ -408,6 +408,14 @@ def make_log_target_pipeline(model) -> TransformedTargetRegressor:
     )
 
 
+def make_log_target_regressor(model) -> TransformedTargetRegressor:
+    return TransformedTargetRegressor(
+        regressor=model,
+        func=np.log1p,
+        inverse_func=np.expm1,
+    )
+
+
 def get_xy(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
     return df[FEATURE_COLUMNS], df["load"]
 
