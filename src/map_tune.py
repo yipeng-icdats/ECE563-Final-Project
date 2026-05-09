@@ -199,11 +199,11 @@ def evaluate_ridge_candidate(alpha: float, train: pd.DataFrame, valid: pd.DataFr
     fit_seconds = time.perf_counter() - fit_start
 
     train_pred_start = time.perf_counter()
-    train_pred = model.predict(train[FEATURE_COLUMNS])
+    train_pred = np.maximum(model.predict(train[FEATURE_COLUMNS]), 0.0)
     train_prediction_seconds = time.perf_counter() - train_pred_start
 
     valid_pred_start = time.perf_counter()
-    valid_pred = model.predict(valid[FEATURE_COLUMNS])
+    valid_pred = np.maximum(model.predict(valid[FEATURE_COLUMNS]), 0.0)
     validation_prediction_seconds = time.perf_counter() - valid_pred_start
 
     return {
@@ -236,11 +236,11 @@ def evaluate_hgb_candidate(params: dict, train: pd.DataFrame, valid: pd.DataFram
     fit_seconds = time.perf_counter() - fit_start
 
     train_pred_start = time.perf_counter()
-    train_pred = model.predict(train[FEATURE_COLUMNS])
+    train_pred = np.maximum(model.predict(train[FEATURE_COLUMNS]), 0.0)
     train_prediction_seconds = time.perf_counter() - train_pred_start
 
     valid_pred_start = time.perf_counter()
-    valid_pred = model.predict(valid[FEATURE_COLUMNS])
+    valid_pred = np.maximum(model.predict(valid[FEATURE_COLUMNS]), 0.0)
     validation_prediction_seconds = time.perf_counter() - valid_pred_start
 
     return {
