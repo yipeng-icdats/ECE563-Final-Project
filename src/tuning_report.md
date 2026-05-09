@@ -26,15 +26,15 @@ Validation RMSE is used for model selection because it measures error in the sam
 ## Selected Parameters
 
 - Ridge selected alpha: `0.001`
-- Ridge validation RMSE: 280586.65
-- Ridge validation MAPE: 115.47%
+- Ridge validation RMSE: 279783.06
+- Ridge validation MAPE: 101.94%
 - HGB selected parameters: `{'learning_rate': 0.1, 'max_iter': 300, 'max_leaf_nodes': 45, 'l2_regularization': 0.1, 'min_samples_leaf': 30}`
-- HGB validation RMSE: 177691.18
-- HGB validation MAPE: 28.64%
+- HGB validation RMSE: 176712.65
+- HGB validation MAPE: 21.16%
 
 ## Runtime Summary
 
-- Total tuning runtime: 316.69 seconds
+- Total tuning runtime: 325.02 seconds
 - Ridge candidates tested: 12
 - HGB candidates tested: 36
 
@@ -42,56 +42,56 @@ Validation RMSE is used for model selection because it measures error in the sam
 
 | Rank | Selected | Parameters | Train RMSE | Train MAPE (%) | Valid RMSE | Valid MAPE (%) | Fit Seconds | Total Seconds |
 |---:|:---:|---|---:|---:|---:|---:|---:|---:|
-| 1 | yes | `alpha=0.001` | 164792.17 | 69.83 | 280586.65 | 115.47 | 0.57 | 0.97 |
-| 2 |  | `alpha=0.01` | 164792.13 | 69.83 | 280597.09 | 115.39 | 0.55 | 0.92 |
-| 3 |  | `alpha=0.1` | 164791.95 | 69.83 | 280671.03 | 114.83 | 0.53 | 0.90 |
-| 4 |  | `alpha=0.3` | 164791.97 | 69.83 | 280747.09 | 114.27 | 0.52 | 0.89 |
-| 5 |  | `alpha=1.0` | 164792.18 | 69.83 | 280820.71 | 113.74 | 0.50 | 0.89 |
-| 6 |  | `alpha=3.0` | 164792.30 | 69.83 | 280858.45 | 113.48 | 0.54 | 0.90 |
-| 7 |  | `alpha=10.0` | 164792.25 | 69.84 | 280884.48 | 113.36 | 0.53 | 0.93 |
-| 8 |  | `alpha=30.0` | 164792.44 | 69.86 | 280920.93 | 113.28 | 0.54 | 0.95 |
-| 9 |  | `alpha=50.0` | 164793.34 | 69.87 | 280952.82 | 113.23 | 0.52 | 0.87 |
-| 10 |  | `alpha=100.0` | 164798.42 | 69.92 | 281026.87 | 113.13 | 0.54 | 0.90 |
-| 11 |  | `alpha=300.0` | 164846.55 | 70.15 | 281272.20 | 112.88 | 0.52 | 0.90 |
-| 12 |  | `alpha=1000.0` | 165152.02 | 70.96 | 281762.38 | 112.68 | 0.54 | 0.89 |
+| 1 | yes | `alpha=0.001` | 164630.94 | 69.62 | 279783.06 | 101.94 | 0.55 | 0.94 |
+| 2 |  | `alpha=0.01` | 164630.90 | 69.62 | 279793.05 | 101.87 | 0.54 | 0.93 |
+| 3 |  | `alpha=0.1` | 164630.70 | 69.62 | 279863.83 | 101.40 | 0.53 | 0.88 |
+| 4 |  | `alpha=0.3` | 164630.70 | 69.62 | 279936.59 | 100.91 | 0.56 | 0.93 |
+| 5 |  | `alpha=1.0` | 164630.85 | 69.62 | 280007.01 | 100.46 | 0.57 | 0.93 |
+| 6 |  | `alpha=3.0` | 164630.94 | 69.62 | 280043.26 | 100.24 | 0.56 | 0.93 |
+| 7 |  | `alpha=10.0` | 164630.88 | 69.62 | 280068.81 | 100.12 | 0.55 | 0.93 |
+| 8 |  | `alpha=30.0` | 164631.07 | 69.64 | 280105.54 | 100.02 | 0.54 | 0.94 |
+| 9 |  | `alpha=50.0` | 164632.00 | 69.66 | 280137.81 | 99.95 | 0.57 | 0.97 |
+| 10 |  | `alpha=100.0` | 164637.13 | 69.71 | 280212.62 | 99.79 | 0.55 | 0.91 |
+| 11 |  | `alpha=300.0` | 164685.30 | 69.94 | 280458.88 | 99.36 | 0.53 | 0.88 |
+| 12 |  | `alpha=1000.0` | 164988.92 | 70.76 | 280945.19 | 98.78 | 0.57 | 1.01 |
 
 ### HistGradientBoostingRegressor Candidate Results
 
 | Rank | Selected | Parameters | Train RMSE | Train MAPE (%) | Valid RMSE | Valid MAPE (%) | Fit Seconds | Total Seconds |
 |---:|:---:|---|---:|---:|---:|---:|---:|---:|
-| 1 | yes | `learning_rate=0.1, max_iter=300, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 76356.30 | 16.00 | 177691.18 | 28.64 | 10.46 | 11.48 |
-| 2 |  | `learning_rate=0.1, max_iter=300, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 76584.00 | 15.11 | 179151.88 | 27.68 | 10.50 | 11.53 |
-| 3 |  | `learning_rate=0.1, max_iter=300, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 82731.29 | 16.25 | 179454.95 | 29.38 | 8.01 | 8.93 |
-| 4 |  | `learning_rate=0.08, max_iter=300, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 79637.98 | 15.86 | 179635.12 | 28.09 | 10.74 | 11.83 |
-| 5 |  | `learning_rate=0.1, max_iter=300, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 82030.94 | 17.29 | 180038.05 | 30.47 | 7.90 | 8.82 |
-| 6 |  | `learning_rate=0.08, max_iter=300, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 79529.96 | 15.99 | 180124.63 | 28.60 | 10.79 | 11.86 |
-| 7 |  | `learning_rate=0.1, max_iter=220, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 81416.52 | 16.46 | 180733.61 | 29.38 | 7.95 | 8.76 |
-| 8 |  | `learning_rate=0.1, max_iter=220, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 81256.41 | 15.90 | 181743.60 | 28.47 | 7.99 | 8.80 |
-| 9 |  | `learning_rate=0.08, max_iter=300, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 85423.82 | 17.45 | 182651.97 | 30.71 | 8.15 | 9.28 |
-| 10 |  | `learning_rate=0.08, max_iter=220, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 84516.16 | 16.66 | 183009.48 | 29.11 | 8.32 | 9.27 |
-| 11 |  | `learning_rate=0.1, max_iter=180, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 84459.45 | 16.87 | 183042.93 | 29.86 | 6.62 | 7.31 |
-| 12 |  | `learning_rate=0.1, max_iter=220, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 87361.59 | 17.36 | 183191.06 | 30.72 | 6.00 | 6.73 |
-| 13 |  | `learning_rate=0.08, max_iter=300, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 85451.93 | 16.82 | 183217.14 | 30.38 | 7.86 | 8.82 |
-| 14 |  | `learning_rate=0.08, max_iter=220, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 84461.87 | 16.91 | 183625.11 | 29.89 | 8.25 | 9.13 |
-| 15 |  | `learning_rate=0.1, max_iter=220, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 86892.88 | 18.24 | 183941.73 | 31.47 | 6.08 | 6.81 |
-| 16 |  | `learning_rate=0.1, max_iter=180, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 84508.73 | 16.51 | 184529.29 | 29.66 | 6.60 | 7.33 |
-| 17 |  | `learning_rate=0.05, max_iter=300, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 86725.41 | 17.54 | 185487.14 | 30.93 | 11.13 | 12.37 |
-| 18 |  | `learning_rate=0.05, max_iter=300, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 86716.25 | 17.20 | 185640.61 | 30.36 | 11.18 | 12.41 |
-| 19 |  | `learning_rate=0.1, max_iter=180, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 90322.92 | 18.67 | 185839.95 | 32.53 | 5.04 | 5.67 |
-| 20 |  | `learning_rate=0.08, max_iter=180, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 87791.97 | 17.23 | 186003.66 | 29.96 | 6.94 | 7.77 |
-| 21 |  | `learning_rate=0.1, max_iter=180, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 89832.20 | 19.09 | 186555.71 | 32.33 | 5.03 | 5.67 |
-| 22 |  | `learning_rate=0.08, max_iter=180, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 87739.56 | 17.39 | 186702.25 | 30.54 | 6.81 | 7.56 |
-| 23 |  | `learning_rate=0.08, max_iter=220, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 90127.95 | 17.58 | 187167.65 | 31.39 | 6.16 | 6.96 |
-| 24 |  | `learning_rate=0.08, max_iter=220, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 90078.38 | 18.80 | 187222.95 | 32.52 | 6.12 | 6.89 |
-| 25 |  | `learning_rate=0.05, max_iter=300, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 92554.68 | 18.80 | 189868.29 | 32.34 | 8.33 | 9.42 |
-| 26 |  | `learning_rate=0.05, max_iter=300, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 92580.47 | 18.95 | 189997.89 | 32.74 | 8.42 | 9.53 |
-| 27 |  | `learning_rate=0.08, max_iter=180, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 93303.66 | 19.85 | 190560.51 | 33.71 | 5.12 | 5.84 |
-| 28 |  | `learning_rate=0.05, max_iter=220, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 92052.14 | 19.38 | 190823.38 | 33.19 | 8.47 | 9.47 |
-| 29 |  | `learning_rate=0.08, max_iter=180, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 93651.77 | 18.72 | 190970.66 | 32.80 | 5.10 | 5.76 |
-| 30 |  | `learning_rate=0.05, max_iter=220, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 92251.91 | 19.09 | 191160.86 | 32.99 | 8.40 | 9.40 |
-| 31 |  | `learning_rate=0.05, max_iter=180, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 96054.23 | 21.15 | 195144.32 | 35.04 | 7.00 | 7.82 |
-| 32 |  | `learning_rate=0.05, max_iter=220, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 97834.19 | 21.09 | 195203.64 | 35.23 | 6.58 | 7.47 |
-| 33 |  | `learning_rate=0.05, max_iter=180, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 96169.41 | 20.93 | 195512.46 | 35.02 | 7.01 | 7.85 |
-| 34 |  | `learning_rate=0.05, max_iter=220, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 97943.82 | 21.08 | 195551.69 | 35.53 | 6.22 | 7.08 |
-| 35 |  | `learning_rate=0.05, max_iter=180, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 101858.53 | 23.52 | 200016.12 | 37.63 | 5.20 | 5.95 |
-| 36 |  | `learning_rate=0.05, max_iter=180, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 101997.73 | 23.74 | 200330.02 | 38.29 | 5.13 | 5.85 |
+| 1 | yes | `learning_rate=0.1, max_iter=300, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 76277.96 | 15.77 | 176712.65 | 21.16 | 11.17 | 12.29 |
+| 2 |  | `learning_rate=0.1, max_iter=300, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 76002.09 | 15.40 | 176862.93 | 20.44 | 10.79 | 11.90 |
+| 3 |  | `learning_rate=0.08, max_iter=300, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 79262.50 | 15.26 | 178237.09 | 20.35 | 10.97 | 12.08 |
+| 4 |  | `learning_rate=0.1, max_iter=300, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 81908.02 | 16.05 | 178799.39 | 21.11 | 7.76 | 8.72 |
+| 5 |  | `learning_rate=0.1, max_iter=300, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 82108.59 | 16.62 | 178991.05 | 22.20 | 8.11 | 9.05 |
+| 6 |  | `learning_rate=0.1, max_iter=220, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 80694.32 | 16.03 | 179508.64 | 21.20 | 8.19 | 9.04 |
+| 7 |  | `learning_rate=0.1, max_iter=220, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 81109.15 | 16.21 | 179643.56 | 21.58 | 8.20 | 9.04 |
+| 8 |  | `learning_rate=0.08, max_iter=300, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 79239.25 | 15.48 | 179654.67 | 20.78 | 11.12 | 12.23 |
+| 9 |  | `learning_rate=0.08, max_iter=300, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 85119.96 | 17.22 | 181011.23 | 22.81 | 8.10 | 9.09 |
+| 10 |  | `learning_rate=0.1, max_iter=180, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 83788.95 | 16.63 | 181784.25 | 22.25 | 6.85 | 7.58 |
+| 11 |  | `learning_rate=0.08, max_iter=220, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 84131.06 | 16.35 | 181788.28 | 21.60 | 8.28 | 9.16 |
+| 12 |  | `learning_rate=0.1, max_iter=180, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 84323.46 | 16.70 | 182066.67 | 22.14 | 6.84 | 7.57 |
+| 13 |  | `learning_rate=0.1, max_iter=220, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 86556.10 | 17.28 | 182598.01 | 23.14 | 5.91 | 6.66 |
+| 14 |  | `learning_rate=0.08, max_iter=300, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 85132.97 | 17.29 | 182622.83 | 22.64 | 8.42 | 9.41 |
+| 15 |  | `learning_rate=0.08, max_iter=220, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 84121.15 | 16.30 | 182835.71 | 21.71 | 8.47 | 9.42 |
+| 16 |  | `learning_rate=0.1, max_iter=220, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 86543.68 | 16.68 | 182918.82 | 22.02 | 6.21 | 6.99 |
+| 17 |  | `learning_rate=0.05, max_iter=300, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 86269.46 | 17.23 | 184147.02 | 22.64 | 11.67 | 12.91 |
+| 18 |  | `learning_rate=0.08, max_iter=180, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 87252.00 | 17.09 | 184248.75 | 22.67 | 7.00 | 7.77 |
+| 19 |  | `learning_rate=0.05, max_iter=300, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 86576.77 | 17.47 | 184402.43 | 22.92 | 11.01 | 12.30 |
+| 20 |  | `learning_rate=0.1, max_iter=180, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 89748.16 | 17.79 | 185340.30 | 23.86 | 5.16 | 5.82 |
+| 21 |  | `learning_rate=0.08, max_iter=180, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 87227.84 | 17.04 | 185346.02 | 22.59 | 6.73 | 7.49 |
+| 22 |  | `learning_rate=0.08, max_iter=220, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 89937.45 | 18.75 | 185567.47 | 24.49 | 6.32 | 7.11 |
+| 23 |  | `learning_rate=0.1, max_iter=180, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 89648.60 | 17.17 | 185839.84 | 22.59 | 5.18 | 5.83 |
+| 24 |  | `learning_rate=0.08, max_iter=220, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 89749.29 | 18.52 | 186244.81 | 24.08 | 6.28 | 7.08 |
+| 25 |  | `learning_rate=0.05, max_iter=300, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 92351.16 | 18.47 | 188537.71 | 24.44 | 8.35 | 9.49 |
+| 26 |  | `learning_rate=0.05, max_iter=300, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 92231.84 | 18.67 | 188682.21 | 25.11 | 8.61 | 9.76 |
+| 27 |  | `learning_rate=0.08, max_iter=180, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 93153.59 | 19.72 | 188915.14 | 25.54 | 5.31 | 6.00 |
+| 28 |  | `learning_rate=0.05, max_iter=220, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 91690.52 | 18.92 | 189481.47 | 24.56 | 8.64 | 9.67 |
+| 29 |  | `learning_rate=0.08, max_iter=180, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 93221.45 | 19.54 | 189681.74 | 25.20 | 5.25 | 5.93 |
+| 30 |  | `learning_rate=0.05, max_iter=220, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 92017.42 | 19.14 | 190043.80 | 24.84 | 8.71 | 9.74 |
+| 31 |  | `learning_rate=0.05, max_iter=180, max_leaf_nodes=45, l2_regularization=0.01, min_samples_leaf=30` | 95648.43 | 20.56 | 193858.41 | 26.07 | 7.03 | 7.88 |
+| 32 |  | `learning_rate=0.05, max_iter=220, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 97940.41 | 20.82 | 194499.23 | 27.14 | 6.63 | 7.57 |
+| 33 |  | `learning_rate=0.05, max_iter=180, max_leaf_nodes=45, l2_regularization=0.1, min_samples_leaf=30` | 95970.28 | 20.88 | 194557.37 | 26.86 | 7.42 | 8.34 |
+| 34 |  | `learning_rate=0.05, max_iter=220, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 97806.08 | 20.82 | 194600.98 | 27.61 | 7.05 | 7.95 |
+| 35 |  | `learning_rate=0.05, max_iter=180, max_leaf_nodes=31, l2_regularization=0.01, min_samples_leaf=30` | 101849.85 | 23.39 | 199765.94 | 29.62 | 5.90 | 6.66 |
+| 36 |  | `learning_rate=0.05, max_iter=180, max_leaf_nodes=31, l2_regularization=0.1, min_samples_leaf=30` | 101895.97 | 23.77 | 199981.98 | 30.18 | 5.33 | 6.07 |

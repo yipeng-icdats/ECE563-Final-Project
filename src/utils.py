@@ -132,6 +132,15 @@ def clean_load_values(load_long: pd.DataFrame, fit_year_max: int = 2007) -> pd.D
     out["load_was_imputed"] = zero_defect.astype(int)
     out.loc[zero_defect, "load"] = local_fill.loc[zero_defect]
 
+    low_positive_defect = (
+        (out["load"] > 0)
+        & (~is_target)
+        & local_fill.notna()
+        & (out["load"] < 0.20 * local_fill)
+    )
+    out["load_was_low_positive_imputed"] = low_positive_defect.astype(int)
+    out.loc[low_positive_defect, "load"] = local_fill.loc[low_positive_defect]
+
     known = out["load"].notna() & history_fit_mask(out, fit_year_max, "load")
     stats = (
         out.loc[known, ["zone_id", "month", "hour", "load"]]
