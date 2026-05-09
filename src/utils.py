@@ -8,7 +8,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from sklearn.compose import ColumnTransformer
+from sklearn.compose import ColumnTransformer, TransformedTargetRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
@@ -398,6 +398,14 @@ def build_linear_preprocessor() -> ColumnTransformer:
 
 def make_linear_pipeline(model) -> Pipeline:
     return Pipeline([("preprocess", build_linear_preprocessor()), ("model", model)])
+
+
+def make_log_target_pipeline(model) -> TransformedTargetRegressor:
+    return TransformedTargetRegressor(
+        regressor=make_linear_pipeline(model),
+        func=np.log1p,
+        inverse_func=np.expm1,
+    )
 
 
 def get_xy(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:

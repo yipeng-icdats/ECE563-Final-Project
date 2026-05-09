@@ -38,7 +38,7 @@ from utils import (
     clean_temperature_values,
     get_xy,
     load_raw_data,
-    make_linear_pipeline,
+    make_log_target_pipeline,
     pivot_station_temperatures,
     prepare_model_frame,
     regression_metrics,
@@ -192,7 +192,7 @@ def rank_candidates(candidate_results: list[dict]) -> list[dict]:
 
 def evaluate_ridge_candidate(alpha: float, train: pd.DataFrame, valid: pd.DataFrame) -> dict:
     candidate_start = time.perf_counter()
-    model = make_linear_pipeline(Ridge(alpha=alpha))
+    model = make_log_target_pipeline(Ridge(alpha=alpha))
 
     fit_start = time.perf_counter()
     model.fit(*get_xy(train))

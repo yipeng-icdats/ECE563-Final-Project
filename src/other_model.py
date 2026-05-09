@@ -15,7 +15,7 @@ from utils import (
     evaluate_and_time,
     fit_and_time,
     load_mapping,
-    make_linear_pipeline,
+    make_log_target_pipeline,
     prepare_model_frame,
     print_metrics,
     top_errors,
@@ -39,7 +39,7 @@ def main() -> None:
 
     data = prepare_model_frame(mapping, stats_fit_year_max=2007)
     train_df, test_df = train_test_time_split(data)
-    model = make_linear_pipeline(Ridge(alpha=alpha))
+    model = make_log_target_pipeline(Ridge(alpha=alpha))
 
     model, train_time = fit_and_time(model, train_df)
     train_metrics, _, train_pred_time = evaluate_and_time(model, train_df)
